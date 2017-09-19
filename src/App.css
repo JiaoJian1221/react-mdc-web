@@ -1,0 +1,25 @@
+html {
+  height: 100%;
+}
+
+body, #root, #app {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 100%;
+  flex: 1 1 auto;
+}
+
+#app-content {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.Cell {
+  background-color: #ccc;
+  padding: 5px;
+}
