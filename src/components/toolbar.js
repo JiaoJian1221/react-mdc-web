@@ -2,40 +2,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
-import * as MDC from '@material/toolbar';
+import {
+  MDCToolbar,
+} from '@material/toolbar';
+import '@material/toolbar/dist/mdc.toolbar.min.css';
 
 import Icon from './icon';
 
-import '@material/toolbar/dist/mdc.toolbar.min.css';
-
-const ROOT = 'mdc-toolbar';
-const FIXED = `${ROOT}--fixed`;
-const WATER_FALL = `${ROOT}--waterfall`;
-const FIX_LAST_ROW = `${FIXED}-lastrow-only`;
-const ROW = `${ROOT}__row`;
-const TITLE = `${ROOT}__title`;
-const ICON = `${ROOT}__icon--menu`;
-const SECTION = `${ROOT}__section`;
-const SECTION_ALIGN_START = `${SECTION}--align-start`;
-const SECTION_ALIGN_END = `${SECTION}--align-end`;
-const SECTION_FIT = `${SECTION}--shrink-to-fit`;
+const TOOLBAR = 'mdc-toolbar';
 
 export class Toolbar extends React.Component {
   componentDidMount() {
-    this.toolbar = MDC.MDCToolbar.attachTo(this.root_);
+    this.toolbar = MDCToolbar.attachTo(this.root_);
   }
 
   render() {
     let {className, fixed, fixLastRow, waterfall, children, ...otherProps} = this.props;
     return (
-      <header className={classnames(ROOT, {
-        [FIXED]: fixed,
-        [FIX_LAST_ROW]: fixLastRow,
-        [WATER_FALL]: waterfall,
-      }, className)} ref={ref => this.root_=ref}>
+      <header className={classnames(TOOLBAR, {
+        [`${TOOLBAR}--fixed`]: fixed,
+        [`${TOOLBAR}--fixed-lastrow-only`]: fixLastRow,
+        [`${TOOLBAR}--waterfall`]: waterfall,
+      }, className)} {...otherProps} ref={ref => this.root_=ref}>
         {children}
       </header>
-    )
+    );
   }
 }
 
@@ -51,10 +42,10 @@ export class ToolbarSection extends React.Component {
   render() {
     let {className, children, start, end, fit, ...otherProps} = this.props;
     return (
-      <section className={classnames(SECTION, {
-        [SECTION_ALIGN_START]: start,
-        [SECTION_ALIGN_END]: end,
-        [SECTION_FIT]: fit,
+      <section className={classnames(`${TOOLBAR}__section`, {
+        [`${TOOLBAR}__section--align-start`]: start,
+        [`${TOOLBAR}__section--align-end`]: end,
+        [`${TOOLBAR}__section--shrink-to-fit`]: fit,
       }, className)} {...otherProps}>
         {children}
       </section>
@@ -71,7 +62,7 @@ export class ToolbarRow extends React.Component {
   render() {
     let {className, children, ...otherProps} = this.props;
     return (
-      <div className={classnames(ROW, className)} {...otherProps}>
+      <div className={classnames(`${TOOLBAR}__row`, className)} {...otherProps}>
         {children}
       </div>
     )
@@ -87,7 +78,7 @@ export class ToolbarTitle extends React.Component {
   render() {
     let {className, children, ...otherProps} = this.props;
     return (
-      <span className={classnames(TITLE, className)} {...otherProps}>
+      <span className={classnames(`${TOOLBAR}__title`, className)} {...otherProps}>
         {children}
       </span>
     )
@@ -104,7 +95,7 @@ export class ToolbarIcon extends React.Component {
   render() {
     let {className, children, icon, ...otherProps} = this.props;
     return (
-      <Icon tag="a" className={classnames(ICON, className)} name={icon} {...otherProps} />
+      <Icon tag="a" className={classnames(`${TOOLBAR}__icon--menu`, className)} name={icon} {...otherProps} />
     )
   }
 }

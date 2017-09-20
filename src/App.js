@@ -28,6 +28,7 @@ import {
   IconTest,
   TabTest,
   ListTest,
+  MenuTest,
 } from './examples';
 
 import '@material/theme/dist/mdc.theme.min.css';
@@ -95,6 +96,10 @@ class App extends React.Component {
       path: '/list',
       component: ListTest,
       name: 'List',
+    }, {
+      path: '/menu',
+      component: MenuTest,
+      name: 'Menu',
     }],
   }
 
@@ -119,9 +124,9 @@ class App extends React.Component {
                 {this.state.links.map((link, index) => {
                   return (
                     <ListItem key={index}>
-                      <ListItemIcon icon="folder" start/>
+                      <ListItemIcon icon="folder"/>
                       <Link to={link.path}>{link.name}</Link>
-                      <ListItemIcon icon="info" end/>
+                      <ListItemIcon icon="info" position='end' />
                     </ListItem>
                   )
                 })}

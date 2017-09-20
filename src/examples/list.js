@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Icon, Elevation, ListGroup, List, ListItem, ListItemIcon, ListItemText, ListDivider, ListGroupSubheader
+  Elevation, ListGroup, List, ListItem, ListItemIcon, ListItemText, ListDivider, ListGroupSubheader
 } from '../components'
 
 export class ListTest extends React.Component {

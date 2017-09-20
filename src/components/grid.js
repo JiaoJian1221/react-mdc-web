@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import * as utils from './utils';
 
 import "@material/layout-grid/dist/mdc.layout-grid.min.css";
 
-const MDC = 'mdc-layout-grid';
+const LAYOUT_GRID = 'mdc-layout-grid';
 
 export class Grid extends React.Component {
   static propTypes = {
@@ -16,8 +15,8 @@ export class Grid extends React.Component {
   render() {
     let {className, children, ...otherProps} = this.props;
     return (
-      <div className={classnames(MDC, className)} {...otherProps}>
-        <div className={`${MDC}__inner`}> {children} </div>
+      <div className={classnames(LAYOUT_GRID, className)} {...otherProps}>
+        <div className={`${LAYOUT_GRID}__inner`}> {children} </div>
       </div>
     );
   }
@@ -36,12 +35,12 @@ export class Cell extends React.Component {
   render() {
     let {className, align, col, order, phone, tablet, children, ...otherProps} = this.props;
     return (
-      <div className={classnames(`${MDC}__cell`, {
-          [`${MDC}__cell--span-${col}`]: utils.isDefined(col),
-          [`${MDC}__cell--span-${tablet}-tablet`]: utils.isDefined(tablet),
-          [`${MDC}__cell--span-${phone}-phone`]: utils.isDefined(phone),
-          [`${MDC}__cell--order-${order}`]: utils.isDefined(order),
-          [`${MDC}__cell--align-${align}`]: utils.isDefined(align),
+      <div className={classnames(`${LAYOUT_GRID}__cell`, {
+          [`${LAYOUT_GRID}__cell--span-${col}`]: col,
+          [`${LAYOUT_GRID}__cell--span-${tablet}-tablet`]: tablet,
+          [`${LAYOUT_GRID}__cell--span-${phone}-phone`]: phone,
+          [`${LAYOUT_GRID}__cell--order-${order}`]: order,
+          [`${LAYOUT_GRID}__cell--align-${align}`]: align,
         }, className)} {...otherProps}>{children}</div>
     );
   }

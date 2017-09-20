@@ -2,17 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import * as MDC from '@material/ripple';
+import {
+  MDCRipple
+} from '@material/ripple';
 import "@material/button/dist/mdc.button.min.css";
 
-import * as Utils from './utils';
-
-const ROOT = 'mdc-button';
-const ACCENT = `${ROOT}--accent`;
-const COMPACT = `${ROOT}--compact`;
-const DENSE = `${ROOT}--dense`;
-const PRIMARY = `${ROOT}--primary`;
-const RAISED = `${ROOT}--raised`;
+const BUTTON = 'mdc-button';
 
 export class Button extends React.Component {
   static propTypes = {
@@ -26,7 +21,7 @@ export class Button extends React.Component {
   }
 
   componentDidMount() {
-    this.ripple = MDC.MDCRipple.attachTo(this.button, {isUnbounded: false});
+    this.ripple = MDCRipple.attachTo(this.button, {isUnbounded: false});
   }
 
   componentWillUnmount() {
@@ -36,12 +31,12 @@ export class Button extends React.Component {
   render() {
     let {accent, children, className, compact, dense, primary, raised, tag, href, ...otherProps} = this.props;
     return React.createElement(tag ? tag : href ? 'a' : 'button', {
-      className: classnames(ROOT, {
-        [ACCENT] : accent,
-        [COMPACT] : compact,
-        [DENSE] : dense,
-        [PRIMARY] : primary,
-        [RAISED] : raised,
+      className: classnames(BUTTON, {
+        [`${BUTTON}--accent`] : accent,
+        [`${BUTTON}--compact`] : compact,
+        [`${BUTTON}--dense`] : dense,
+        [`${BUTTON}--primary`] : primary,
+        [`${BUTTON}--raised`] : raised,
       }, className),
       ref: ref => this.button = ref,
       ...otherProps,

@@ -2,26 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
-import * as MDC from '@material/tabs';
-
+import {
+  MDCTabBar,
+  MDCTabBarScroller,
+} from '@material/tabs';
 import '@material/tabs/dist/mdc.tabs.min.css';
 
 import Icon from './icon';
 
-const ROOT_TAB = 'mdc-tab';
-const ROOT_TAB_WITH_ICON_TEXT = `${ROOT_TAB}--with-icon-and-text`;
-const ROOT_TAB_ICON = `${ROOT_TAB}__icon`;
-const ROOT_TAB_ICON_TEXT = `${ROOT_TAB_ICON}-text`;
-const ROOT_TAB_BAR = 'mdc-tab-bar';
-const ROOT_TAB_BAR_INDICATOR = `${ROOT_TAB_BAR}__indicator`;
-const ROOT_TAB_BAR_SCROLLER = `${ROOT_TAB_BAR}-scroller`;
-const ROOT_TAB_BAR_SCROLLER_INDICATOR = `${ROOT_TAB_BAR_SCROLLER}__indicator`;
-const ROOT_TAB_BAR_SCROLLER_INDICATOR_INNER = `${ROOT_TAB_BAR_SCROLLER_INDICATOR}__inner`;
-const ROOT_TAB_BAR_SCROLLER_INDICATOR_BACK = `${ROOT_TAB_BAR_SCROLLER_INDICATOR}--back`;
-const ROOT_TAB_BAR_SCROLLER_INDICATOR_FORWARD = `${ROOT_TAB_BAR_SCROLLER_INDICATOR}--forward`;
-const ROOT_TAB_BAR_SCROLLER_INDICATOR_ENABLED = `${ROOT_TAB_BAR_SCROLLER_INDICATOR}--enabled`;
-const ROOT_TAB_BAR_SCROLLER_FRAME = `${ROOT_TAB_BAR_SCROLLER}__scroll-frame`;
-const ROOT_TAB_BAR_SCROLLER_FRAME_TABS = `${ROOT_TAB_BAR_SCROLLER_FRAME}__tabs`;
+const TAB = 'mdc-tab';
+const TAB_BAR = 'mdc-tab-bar';
 
 export class TabBarScroller extends React.Component {
   static propTypes = {
@@ -30,30 +20,23 @@ export class TabBarScroller extends React.Component {
   }
 
   componentDidMount() {
-    MDC.MDCTabBarScroller.attachTo(this.root_);
+    MDCTabBarScroller.attachTo(this.root_);
   }
 
   render() {
     let {className, children, ...otherProps} = this.props;
     return (
-      <div className={classnames(ROOT_TAB_BAR_SCROLLER, className)} {...otherProps} ref={ref => this.root_=ref}>
-        <div className={classnames(
-          ROOT_TAB_BAR_SCROLLER_INDICATOR,
-          ROOT_TAB_BAR_SCROLLER_INDICATOR_BACK,)
-        }><Icon tag="a" className={ROOT_TAB_BAR_SCROLLER_INDICATOR_INNER} name="navigate_before"/>
+      <div className={classnames(`${TAB_BAR}-scroller`, className)} {...otherProps} ref={ref => this.root_=ref}>
+        <div className={classnames(`${TAB_BAR}-scroller__indicator`, `${TAB_BAR}-scroller__indicator--back`)}>
+          <Icon tag="a" className={`${TAB_BAR}-scroller__indicator__inner`} name="navigate_before"/>
         </div>
-        <div className={classnames(
-          ROOT_TAB_BAR_SCROLLER_FRAME
-        )}>{children}</div>
-        <div className={classnames(
-          ROOT_TAB_BAR_SCROLLER_INDICATOR,
-          ROOT_TAB_BAR_SCROLLER_INDICATOR_FORWARD,)
-        }><Icon tag="a" className={ROOT_TAB_BAR_SCROLLER_INDICATOR_INNER} name="navigate_next"/>
+        <div className={`${TAB_BAR}-scroller__scroll-frame`}>{children}</div>
+        <div className={classnames(`${TAB_BAR}-scroller__indicator`, `${TAB_BAR}-scroller__indicator--forward`,)}>
+          <Icon tag="a" className={`${TAB_BAR}-scroller__indicator__inner`} name="navigate_next"/>
         </div>
       </div>
     );
   }
-
 }
 
 export class TabBar extends React.Component {
@@ -65,25 +48,24 @@ export class TabBar extends React.Component {
 
   componentDidMount() {
     if(!this.props.scrollable) {
-      MDC.MDCTabBar.attachTo(this.root_);
+      MDCTabBar.attachTo(this.root_);
     }
   }
 
   render() {
     let {className, children, scrollable, ...otherProps} = this.props;
     return (
-      <nav className={classnames(ROOT_TAB_BAR, {
-        [ROOT_TAB_BAR_SCROLLER_FRAME_TABS]: scrollable,
+      <nav className={classnames(TAB_BAR, {
+        [`${TAB_BAR}-scroller__scroll-frame__tabs`]: scrollable,
       }, className)} {...otherProps} ref={ref => this.root_=ref}>
         {children}
-        <span className={ROOT_TAB_BAR_INDICATOR}></span>
+        <span className={`${TAB_BAR}__indicator`}></span>
       </nav>
-    )
+    );
   }
 }
 
 export class TabIcon extends React.Component {
-
   static propTypes = {
     className: PropTypes.string,
     icon: PropTypes.string,
@@ -91,12 +73,13 @@ export class TabIcon extends React.Component {
 
   render() {
     let {className, icon, ...otherProps} = this.props;
-    return <Icon className={classnames(ROOT_TAB_ICON, className)} name={icon} />
+    return (
+      <Icon className={classnames(`${TAB}__icon`, className)} name={icon} {...otherProps} />
+    );
   }
 }
 
 export class TabText extends React.Component {
-
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
@@ -104,12 +87,13 @@ export class TabText extends React.Component {
 
   render() {
     let {className, children, ...otherProps} = this.props;
-    return <span className={classnames(ROOT_TAB_ICON_TEXT, className)}>{children}</span>
+    return (
+      <span className={classnames(`${TAB}__icon-text`, className)} {...otherProps}>{children}</span>
+    );
   }
 }
 
 export class Tab extends React.Component {
-
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
@@ -129,11 +113,11 @@ export class Tab extends React.Component {
       }
     });
     return (
-      <a className={classnames(ROOT_TAB, {
-        [ROOT_TAB_WITH_ICON_TEXT]: hasIcon && hasText
-      }, className)} ref={ref => this.root_=ref}>
+      <a className={classnames(TAB, {
+        [`${TAB}--with-icon-and-text`]: hasIcon && hasText
+      }, className)} {...otherProps} ref={ref => this.root_=ref}>
         {children}
       </a>
-    )
+    );
   }
 }

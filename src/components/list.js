@@ -2,25 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
-import * as MDC from '@material/toolbar';
-import * as MDCRipple from '@material/ripple';
-
+import {
+  MDCRipple,
+} from '@material/ripple';
 import '@material/list/dist/mdc.list.min.css';
 
 import Icon from './icon';
 
 const LIST = 'mdc-list';
-const DIVIDER = `${LIST}-divider`;
-const GROUP = `${LIST}-group`;
-const GROUP_SUBHEADER = `${GROUP}__subheader`;
-const DENSE = `${LIST}--dense`;
-const TWO_LINE = `${LIST}--two-line`;
-const AVATAR = `${LIST}--avatar-list`;
-const ITEM = `${LIST}-item`;
-const ITEM_TEXT = `${ITEM}__text`;
-const ITEM_TEXT_2 = `${ITEM_TEXT}__secondary`;
-const ITEM_END = `${ITEM}__end-detail`;
-const ITEM_START = `${ITEM}__start-detail`;
 
 export class ListDivider extends React.Component {
   static propTypes = {
@@ -30,7 +19,9 @@ export class ListDivider extends React.Component {
 
   render() {
     let {className, children, ...otherProps} = this.props;
-    return <hr className={classnames(className, DIVIDER)} {...otherProps}/>;
+    return (
+      <hr className={classnames(className, `${LIST}-divider`)} {...otherProps}/>
+    );
   }
 }
 
@@ -42,7 +33,9 @@ export class ListGroupSubheader extends React.Component {
 
   render() {
     let {className, children, ...otherProps} = this.props;
-    return <h3 className={classnames(className, GROUP_SUBHEADER)} {...otherProps}>{children}</h3>;
+    return (
+      <h3 className={classnames(className, `${LIST}-group__subheader`)} {...otherProps}>{children}</h3>
+    );
   }
 }
 
@@ -54,7 +47,9 @@ export class ListGroup extends React.Component {
 
   render() {
     let {className, children, ...otherProps} = this.props;
-    return <div className={classnames(className, GROUP)} {...otherProps}>{children}</div>;
+    return (
+      <div className={classnames(className, `${LIST}-group`)} {...otherProps}>{children}</div>
+    );
   }
 }
 
@@ -71,9 +66,9 @@ export class List extends React.Component {
     let {className, dense, twoLine, avatar, children, tag, ...otherProps} = this.props;
     return React.createElement(tag || 'ul', {
       className: classnames(LIST, {
-        [DENSE]: dense,
-        [AVATAR]: avatar,
-        [TWO_LINE]: twoLine,
+        [`${LIST}--dense`]: dense,
+        [`${LIST}--avatar-list`]: avatar,
+        [`${LIST}--two-line`]: twoLine,
       }, className),
       ...otherProps,
     }, children);
@@ -92,35 +87,37 @@ export class ListItemText extends React.Component {
       if(React.isValidElement(child) && child.props.secondary) {
         return React.cloneElement(child, {
           key: index,
-          className: classnames(child.props.className, ITEM_TEXT_2),
+          className: classnames(child.props.className, `${LIST}-item__text__secondary`),
         });
       }
       return child;
     });
     return (
-      <span className={classnames(ITEM_TEXT, className)} {...otherProps}>{nodes}</span>
-    )
+      <span className={classnames(`${LIST}-item__text`, className)} {...otherProps}>{nodes}</span>
+    );
   }
 }
 
 export class ListItemIcon extends React.Component {
-
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    start: PropTypes.bool,
-    end: PropTypes.bool,
+    position: PropTypes.oneOf(['start', 'end']),
     icon: PropTypes.string,
   }
 
+  static defaultProps = {
+    position: 'start'
+  }
+
   render() {
-    let {className, icon, start, end, children, ...otherProps} = this.props;
+    let {className, icon, position, children, ...otherProps} = this.props;
     return (
       <Icon name={icon} className={classnames(className, {
-        [ITEM_START]: start,
-        [ITEM_END]: end,
+        [`${LIST}-item__start-detail`]: position === 'start',
+        [`${LIST}-item__end-detail`]: position === 'end',
       })} {...otherProps}/>
-    )
+    );
   }
 }
 
@@ -128,21 +125,32 @@ export class ListItem extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    ripple: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    ripple: true,
   }
 
   componentDidMount() {
-    this.ripple = MDCRipple.MDCRipple.attachTo(this.root_, {isUnbounded: false});
+    let {ripple} = this.props;
+    if(ripple) {
+      this.ripple_ = MDCRipple.attachTo(this.root_, {isUnbounded: false});
+    }
     this.root_.addEventListener('click', this.props.onClick);
   }
 
   componentWillUnmount() {
-    this.ripple.destroy();
+    let {ripple} = this.props;
+    if(ripple) {
+      this.ripple_.destroy();
+    }
   }
 
   render() {
-    let {className, children, tag, ...otherProps} = this.props;
+    let {className, children, ripple, tag, ...otherProps} = this.props;
     return React.createElement(tag || 'li', {
-      className: classnames(ITEM, className),
+      className: classnames(`${LIST}-item`, className),
       ref: ref => this.root_ = ref,
       style: {
         boxSizing: 'border-box'

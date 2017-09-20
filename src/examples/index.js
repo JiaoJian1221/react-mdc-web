@@ -8,3 +8,4 @@ export {ElevationTest} from './elevation';
 export {IconTest} from './icon';
 export {TabTest} from './tab';
 export {ListTest} from './list';
+export {MenuTest} from './menu';

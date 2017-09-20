@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import '@material/elevation/dist/mdc.elevation.min.css';
 
-const ROOT = 'mdc-elevation';
+const ELEVATION = 'mdc-elevation';
 
 export class Elevation extends React.Component {
   static propTypes = {
@@ -18,8 +18,8 @@ export class Elevation extends React.Component {
     let {className, children, z, transition, ...otherProps} = this.props;
     return (
       <div className={classnames(className, {
-        [`${ROOT}--z${z}`]: typeof z !== 'undefined',
-        [`${ROOT}-transition`]: transition,
+        [`${ELEVATION}--z${z}`]: typeof z !== 'undefined',
+        [`${ELEVATION}-transition`]: transition,
       })} {...otherProps}>{children}</div>
     );
   }

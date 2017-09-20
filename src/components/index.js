@@ -11,3 +11,4 @@ export {ICONS} from './icons.js';
 export {Toolbar, ToolbarRow, ToolbarSection, ToolbarTitle, ToolbarIcon} from './toolbar';
 export {List, ListItem, ListItemText, ListItemIcon, ListGroup, ListGroupSubheader, ListDivider} from './list';
 export {Tab, TabIcon, TabText, TabBar, TabBarScroller} from './tab';
+export {SimpleMenu, SimpleMenuAnchor} from './menu';

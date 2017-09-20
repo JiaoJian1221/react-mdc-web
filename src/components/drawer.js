@@ -2,31 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import * as MDC from '@material/drawer';
+import {
+  MDCTemporaryDrawer,
+  MDCPersistentDrawer,
+} from '@material/drawer';
 import * as MDCTemporaryConstants from '@material/drawer/temporary/constants';
 import * as MDCPersistentConstants from '@material/drawer/persistent/constants';
-
 import '@material/drawer/dist/mdc.drawer.min.css';
 
-
-const PERMANENT = 'mdc-permanent-drawer';
-const PERMANENT_TOOLBAR_SPACER = 'mdc-permanent-drawer__toolbar-spacer';
-const PERMANENT_DRAWER = 'mdc-permanent-drawer__drawer';
-const PERMANENT_HEADER = 'mdc-permanent-drawer__header';
-const PERMANENT_HEADER_CONTENT = 'mdc-permanent-drawer__header-content';
-const PERMANENT_DRAWER_CONTENT = 'mdc-permanent-drawer__drawer__content';
-
-const TEMPORARY = 'mdc-temporary-drawer';
-const TEMPORARY_DRAWER = 'mdc-temporary-drawer__drawer';
-const TEMPORARY_HEADER = 'mdc-temporary-drawer__header';
-const TEMPORARY_HEADER_CONTENT = 'mdc-temporary-drawer__header-content';
-const TEMPORARY_DRAWER_CONTENT = 'mdc-temporary-drawer__drawer__content';
-
-const PERSISTENT = 'mdc-persistent-drawer';
-const PERSISTENT_DRAWER = 'mdc-persistent-drawer__drawer';
-const PERSISTENT_HEADER = 'mdc-persistent-drawer__header';
-const PERSISTENT_HEADER_CONTENT = 'mdc-persistent-drawer__header-content';
-const PERSISTENT_DRAWER_CONTENT = 'mdc-persistent-drawer__drawer__content';
+const PERMANENT = `mdc-permanent-drawer`;
+const TEMPORARY = `mdc-temporary-drawer`;
+const PERSISTENT = `mdc-persistent-drawer`;
 
 export class DrawerHeader extends React.Component {
   static propTypes = {
@@ -37,14 +23,14 @@ export class DrawerHeader extends React.Component {
     let {children, className, contentClassName, type, ...otherProps} = this.props;
     return (
       <header className={classnames(className, {
-        [TEMPORARY_HEADER]: type === 'temporary',
-        [PERMANENT_HEADER]: type === 'permanent',
-        [PERSISTENT_HEADER]: type === 'persistent',
+        [ `${TEMPORARY}__header`]: type === 'temporary',
+        [ `${PERMANENT}__header`]: type === 'permanent',
+        [`${PERSISTENT}__header`]: type === 'persistent',
       })} {...otherProps}>
         <div className={classnames(contentClassName, {
-          [TEMPORARY_HEADER_CONTENT]: type === 'temporary',
-          [PERMANENT_HEADER_CONTENT]: type === 'permanent',
-          [PERSISTENT_HEADER_CONTENT]: type === 'persistent',
+          [ `${TEMPORARY}__header-content`]: type === 'temporary',
+          [ `${PERMANENT}__header-content`]: type === 'permanent',
+          [`${PERSISTENT}__header-content`]: type === 'persistent',
         })}>{children}</div>
       </header>
     );
@@ -56,9 +42,9 @@ export class DrawerContent extends React.Component {
     let {children, className, type, ...otherProps} = this.props;
     return (
       <div className={classnames(className, {
-        [TEMPORARY_DRAWER_CONTENT]: type === 'temporary',
-        [PERMANENT_DRAWER_CONTENT]: type === 'permanent',
-        [PERSISTENT_DRAWER_CONTENT]: type === 'persistent',
+        [ `${TEMPORARY}__drawer__content`]: type === 'temporary',
+        [ `${PERMANENT}__drawer__content`]: type === 'permanent',
+        [`${PERSISTENT}__drawer__content`]: type === 'persistent',
       })} {...otherProps}>
         {children}
       </div>
@@ -66,35 +52,76 @@ export class DrawerContent extends React.Component {
   }
 }
 
-export class PermanentDrawer extends React.Component {
+const PositionStyles = {
+  right: {
 
+  },
+  left: {
+
+  },
+  top: {
+
+  },
+  bottom: {
+
+  }
+}
+
+export class PermanentDrawer extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     above: PropTypes.bool,
+    position: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
+  }
+
+  static defaultProps = {
+    position: 'left',
+  }
+
+  get positionStyle() {
+    let {position, style} = this.props;
+    return {
+      ...style,
+      ...PositionStyles[position]
+    };
   }
 
   render() {
-    let {children, className, above, ...otherProps} = this.props;
+    let {children, className, above, position, style, ...otherProps} = this.props;
     let nodes = React.Children.map(children, (child, index) => {
       return React.cloneElement(child, {type: 'permanent'});
     })
     return (
-      <aside className={classnames(PERMANENT, className)} {...otherProps}>
-        {above?<div className={PERMANENT_TOOLBAR_SPACER}></div>:null}
-        {nodes}
+      <aside className={classnames(PERMANENT, className)} style={this.positionStyle} {...otherProps}>
+        {above?<div className={`${PERMANENT}__toolbar-spacer`}></div>:null}
+        <div className={`${PERMANENT}__drawer`}>{nodes}</div>
       </aside>
     );
   }
 }
 
 export class TemporaryDrawer extends React.Component {
+  static propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.node,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onOpen: () => {},
+    onClose: () => {},
+  }
+
   componentDidMount() {
-    this.drawer = MDC.MDCTemporaryDrawer.attachTo(this.root_);
+    let {onOpen, onClose} = this.props;
+
+    this.drawer = MDCTemporaryDrawer.attachTo(this.root_);
     this.drawer.listen(MDCTemporaryConstants.strings.OPEN_EVENT, evt => {
-      console.log(evt);
+      onOpen();
     });
     this.drawer.listen(MDCTemporaryConstants.strings.CLOSE_EVENT, evt => {
-      console.log(evt);
+      onClose();
     });
   }
 
@@ -111,22 +138,22 @@ export class TemporaryDrawer extends React.Component {
   }
 
   render() {
-    let {children, className, ...otherProps} = this.props;
+    let {children, className, onOpen, onClose, ...otherProps} = this.props;
     let nodes = React.Children.map(children, (child, index) => {
-      console.log(child);
       return React.cloneElement(child, {type: 'temporary'});
     })
     return (
       <aside className={className, TEMPORARY} ref={ref => this.root_=ref} {...otherProps}>
-        <div className={TEMPORARY_DRAWER}>{nodes}</div>
+        <div className={`${TEMPORARY}__drawer`}>{nodes}</div>
       </aside>
     );
   }
 }
 
 export class PersistentDrawer extends React.Component {
+
   componentDidMount() {
-    this.drawer = MDC.MDCPersistentDrawer.attachTo(this.root_);
+    this.drawer = MDCPersistentDrawer.attachTo(this.root_);
     this.drawer.listen(MDCPersistentConstants.strings.OPEN_EVENT, evt => {
       console.log(evt);
     });
@@ -158,7 +185,7 @@ export class PersistentDrawer extends React.Component {
     })
     return (
       <aside className={className, PERSISTENT} ref={ref => this.root_=ref} {...otherProps}>
-        <div className={PERSISTENT_DRAWER}>{nodes}</div>
+        <div className={`${PERSISTENT}__drawer`}>{nodes}</div>
       </aside>
     );
   }

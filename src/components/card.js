@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import '@material/card/dist/mdc.card.min.css';
 
-const MDC = 'mdc-card';
+const CARD = 'mdc-card';
 
 export class Card extends React.Component {
   static propTypes = {
@@ -14,7 +14,7 @@ export class Card extends React.Component {
   render() {
     let {className, children, ...otherProps} = this.props;
     return (
-      <div className={classnames(MDC, className)} {...otherProps}>{children}</div>
+      <div className={classnames(CARD, className)} {...otherProps}>{children}</div>
     );
   }
 }
@@ -28,13 +28,13 @@ export class CardActions extends React.Component {
     let {className, children, ...otherProps} = this.props;
     let actions = React.Children.map(children, (action, index) => {
       let classes = classnames(action.props.className, {
-        [`${MDC}__action`]: true,
+        [`${CARD}__action`]: true,
       });
       return React.cloneElement(action, {key: index, className: classes});
     });
     return (
       <section className={classnames({
-        [`${MDC}__actions`]: true,
+        [`${CARD}__actions`]: true,
       }, className)} {...otherProps}>{actions}</section>
     );
   }
@@ -49,7 +49,7 @@ export class CardHorizontalBlock extends React.Component {
     let {className, children, ...otherProps} = this.props;
     return (
       <div className={classnames({
-        [`${MDC}__horizontal-block`]: true,
+        [`${CARD}__horizontal-block`]: true,
       }, className)} {...otherProps}>{children}</div>
     );
   }
@@ -65,7 +65,7 @@ export class CardHeader extends React.Component {
     let{className, children, ...otherProps} = this.props;
     return (
       <section className={classnames({
-        [`${MDC}__primary`]: true
+        [`${CARD}__primary`]: true
       }, className)} {...otherProps}>{children}</section>
     )
   }
@@ -81,7 +81,7 @@ export class CardText extends React.Component {
     let{className, children, ...otherProps} = this.props;
     return (
       <section className={classnames({
-        [`${MDC}__supporting-text`]: true
+        [`${CARD}__supporting-text`]: true
       }, className)} {...otherProps}>{children}</section>
     )
   }
@@ -97,7 +97,7 @@ export class CardMedia extends React.Component {
     let{className, children, ...otherProps} = this.props;
     return (
       <section className={classnames({
-        [`${MDC}__media`]: true
+        [`${CARD}__media`]: true
       }, className)} {...otherProps}>{children}</section>
     )
   }
@@ -114,8 +114,8 @@ export class CardTitle extends React.Component {
     let{className, children, large, ...otherProps} = this.props;
     return (
       <h1 className={classnames({
-        [`${MDC}__title`]: true,
-        [`${MDC}__title--large`]: large,
+        [`${CARD}__title`]: true,
+        [`${CARD}__title--large`]: large,
       }, className)} {...otherProps}>{children}</h1>
     )
   }
@@ -131,8 +131,10 @@ export class CardSubtitle extends React.Component {
     let{className, children, ...otherProps} = this.props;
     return (
       <h2 className={classnames({
-        [`${MDC}__subtitle`]: true,
+        [`${CARD}__subtitle`]: true,
       }, className)} {...otherProps}>{children}</h2>
     )
   }
 }
+
+export default Card;

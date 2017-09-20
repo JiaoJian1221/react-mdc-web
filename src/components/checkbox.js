@@ -2,19 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
-import * as MDC from '@material/checkbox';
-import * as Anim from '@material/animation';
-
+import {
+  MDCCheckbox
+} from '@material/checkbox';
+import * as MDCConstants from '@material/checkbox/constants';
 import '@material/checkbox/dist/mdc.checkbox.min.css';
 
-import * as Utils from './utils';
-
-const ROOT = 'mdc-checkbox';
-const NATIVE_CONTROL = `${ROOT}__native-control`;
-const BACKGROUND = `${ROOT}__background`;
-const CHECKMARK = `${ROOT}__checkmark`;
-const CHECKMARK_PATH = `${CHECKMARK}__path`;
-const MIXEDMARK = `${ROOT}__mixedmark`;
+const CHECKBOX = 'mdc-checkbox';
 
 export class Checkbox extends React.Component {
   static propTypes = {
@@ -35,7 +29,7 @@ export class Checkbox extends React.Component {
 
 
   componentDidMount() {
-    this.checkbox = MDC.MDCCheckbox.attachTo(this.root_);
+    this.checkbox = MDCCheckbox.attachTo(this.root_);
   }
 
   componentWillUnmount() {
@@ -45,7 +39,7 @@ export class Checkbox extends React.Component {
   render() {
     let {className, indeterminate, ...otherProps} = this.props;
     return (
-      <div className={classnames(ROOT, className)}
+      <div className={classnames(CHECKBOX, className)}
         ref={ref => this.root_ = ref} {...otherProps}>
         <input type="checkbox"
           ref={ref => {
@@ -54,14 +48,14 @@ export class Checkbox extends React.Component {
               ref.indeterminate=indeterminate;
             }
           }}
-          className={classnames(NATIVE_CONTROL, className)} {...otherProps}/>
+          className={classnames(`${CHECKBOX}__native-control`, className)} {...otherProps}/>
 
-        <div className={BACKGROUND}>
-          <svg version="1.1" className={CHECKMARK} viewBox="0 0 24 24">
-            <path className={CHECKMARK_PATH} fill='none' stroke="white"
+        <div className={`${CHECKBOX}__background`}>
+          <svg version="1.1" className={`${CHECKBOX}__checkmark`} viewBox="0 0 24 24">
+            <path className={`${CHECKBOX}__checkmark__path`} fill='none' stroke="white"
               d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
           </svg>
-          <div className={MIXEDMARK} />
+          <div className={`${CHECKBOX}__mixedmark`} />
         </div>
       </div>
     );
