@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import {
   MDCTabBar,
+  MDCTabBarFoundation,
   MDCTabBarScroller,
 } from '@material/tabs';
 import '@material/tabs/dist/mdc.tabs.min.css';
@@ -13,48 +14,36 @@ import Icon from './icon';
 const TAB = 'mdc-tab';
 const TAB_BAR = 'mdc-tab-bar';
 
-export class TabBarScroller extends React.Component {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-  }
-
-  componentDidMount() {
-    MDCTabBarScroller.attachTo(this.root_);
-  }
-
-  render() {
-    let {className, children, ...otherProps} = this.props;
-    return (
-      <div className={classnames(`${TAB_BAR}-scroller`, className)} {...otherProps} ref={ref => this.root_=ref}>
-        <div className={classnames(`${TAB_BAR}-scroller__indicator`, `${TAB_BAR}-scroller__indicator--back`)}>
-          <Icon tag="a" className={`${TAB_BAR}-scroller__indicator__inner`} name="navigate_before"/>
-        </div>
-        <div className={`${TAB_BAR}-scroller__scroll-frame`}>{children}</div>
-        <div className={classnames(`${TAB_BAR}-scroller__indicator`, `${TAB_BAR}-scroller__indicator--forward`,)}>
-          <Icon tag="a" className={`${TAB_BAR}-scroller__indicator__inner`} name="navigate_next"/>
-        </div>
-      </div>
-    );
-  }
-}
-
 export class TabBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
     scrollable: PropTypes.bool,
+    onChange: PropTypes.func,
+  }
+
+  static defaultProps = {
+    scrollable: false,
+    onChange: e => {},
   }
 
   componentDidMount() {
-    if(!this.props.scrollable) {
-      MDCTabBar.attachTo(this.root_);
+    let {scrollable} = this.props;
+    if(scrollable) {
+      this.scroller_ = MDCTabBarScroller.attachTo(this.scrollerRoot_);
+      this.tabbar_ = this.scroller_.tabBar;
     }
+    else {
+      this.tabbar_ = MDCTabBar.attachTo(this.root_);
+    }
+
+    let {onChange} = this.props;
+    this.tabbar_.listen(MDCTabBarFoundation.strings.CHANGE_EVENT, onChange);
   }
 
   render() {
     let {className, children, scrollable, ...otherProps} = this.props;
-    return (
+    let tabbar = (
       <nav className={classnames(TAB_BAR, {
         [`${TAB_BAR}-scroller__scroll-frame__tabs`]: scrollable,
       }, className)} {...otherProps} ref={ref => this.root_=ref}>
@@ -62,6 +51,18 @@ export class TabBar extends React.Component {
         <span className={`${TAB_BAR}__indicator`}></span>
       </nav>
     );
+
+    return scrollable ? (
+      <div className={`${TAB_BAR}-scroller`} ref={ref => this.scrollerRoot_=ref}>
+        <div className={classnames(`${TAB_BAR}-scroller__indicator`, `${TAB_BAR}-scroller__indicator--back`)}>
+          <Icon tag="a" className={`${TAB_BAR}-scroller__indicator__inner`} name="navigate_before"/>
+        </div>
+        <div className={`${TAB_BAR}-scroller__scroll-frame`}>{tabbar}</div>
+        <div className={classnames(`${TAB_BAR}-scroller__indicator`, `${TAB_BAR}-scroller__indicator--forward`,)}>
+          <Icon tag="a" className={`${TAB_BAR}-scroller__indicator__inner`} name="navigate_next"/>
+        </div>
+      </div>
+    ) : tabbar;
   }
 }
 

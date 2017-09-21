@@ -3,12 +3,10 @@ import React from 'react';
 import classnames from 'classnames';
 
 import {
-  MDCDialog
+  MDCDialog,
+  MDCDialogFoundation,
 } from '@material/dialog';
-import * as MDCConstants from '@material/dialog/constants';
 import '@material/dialog/dist/mdc.dialog.min.css';
-
-import Button from './button';
 
 const DIALOG = 'mdc-dialog';
 
@@ -51,29 +49,34 @@ export class DialogHeader extends React.Component {
 
 export class DialogBody extends React.Component {
   render() {
-    let {children, scrollable} = this.props;
+    let {className, children, scrollable, ...otherProps} = this.props;
     return (
       <section className={classnames(`${DIALOG}__body`, {
         [`${DIALOG}__body--scrollable`]: scrollable
-      })}>{children}</section>
+      }, className)} {...otherProps}>{children}</section>
     );
   }
 }
 
 export class Dialog extends React.Component {
   static propTypes = {
-    scrollable: PropTypes.bool,
+    className: PropTypes.string,
     children: PropTypes.node,
+    onAccept: PropTypes.func,
+    onCancel: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onAccept: e => {},
+    onCancel: e => {}
   }
 
   componentDidMount() {
     this.dialog_ = MDCDialog.attachTo(this.root_);
-    this.dialog_.listen(MDCConstants.strings.ACCEPT_EVENT, evt => {
-      console.log(evt);
-    });
-    this.dialog_.listen(MDCConstants.strings.CANCEL_EVENT, evt => {
-      console.log(evt);
-    });
+
+    let {onAccept, onCancel} = this.props;
+    this.dialog_.listen(MDCDialogFoundation.strings.ACCEPT_EVENT, onAccept);
+    this.dialog_.listen(MDCDialogFoundation.strings.CANCEL_EVENT, onCancel);
   }
 
   componentWillUnmount() {
@@ -98,9 +101,9 @@ export class Dialog extends React.Component {
   }
 
   render() {
-    let {children, ...otherProps} = this.props;
+    let {className, children, onAccept, onCancel, ...otherProps} = this.props;
     return (
-      <aside className={DIALOG} {...otherProps} ref={ref => this.root_=ref}>
+      <aside className={classnames(DIALOG, className)} {...otherProps} ref={ref => this.root_=ref}>
         <div className={`${DIALOG}__surface`}>{children}</div>
         <div className={`${DIALOG}__backdrop`}></div>
       </aside>

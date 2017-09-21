@@ -21,7 +21,7 @@ import {
   ButtonTest,
   GridTest,
   CardTest,
-  CheckboxTest,
+  FormTest,
   DialogTest,
   DrawerTest,
   ElevationTest,
@@ -65,9 +65,9 @@ class App extends React.Component {
       component: CardTest,
       name: 'Card',
     }, {
-      path: '/checkbox',
-      component: CheckboxTest,
-      name: 'Checkbox',
+      path: '/form',
+      component: FormTest,
+      name: 'Form',
     }, {
       path: '/dialog',
       component: DialogTest,

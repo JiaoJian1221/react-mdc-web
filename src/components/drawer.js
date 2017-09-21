@@ -4,10 +4,10 @@ import classnames from 'classnames';
 
 import {
   MDCTemporaryDrawer,
+  MDCTemporaryDrawerFoundation,
   MDCPersistentDrawer,
+  MDCPersistentDrawerFoundation,
 } from '@material/drawer';
-import * as MDCTemporaryConstants from '@material/drawer/temporary/constants';
-import * as MDCPersistentConstants from '@material/drawer/persistent/constants';
 import '@material/drawer/dist/mdc.drawer.min.css';
 
 const PERMANENT = `mdc-permanent-drawer`;
@@ -109,20 +109,16 @@ export class TemporaryDrawer extends React.Component {
   }
 
   static defaultProps = {
-    onOpen: () => {},
-    onClose: () => {},
+    onOpen:  e => {},
+    onClose: e => {},
   }
 
   componentDidMount() {
-    let {onOpen, onClose} = this.props;
-
     this.drawer = MDCTemporaryDrawer.attachTo(this.root_);
-    this.drawer.listen(MDCTemporaryConstants.strings.OPEN_EVENT, evt => {
-      onOpen();
-    });
-    this.drawer.listen(MDCTemporaryConstants.strings.CLOSE_EVENT, evt => {
-      onClose();
-    });
+
+    let {onOpen, onClose} = this.props;
+    this.drawer.listen(MDCTemporaryDrawerFoundation.strings.OPEN_EVENT, onOpen);
+    this.drawer.listen(MDCTemporaryDrawerFoundation.strings.CLOSE_EVENT, onClose);
   }
 
   open() {
@@ -151,15 +147,24 @@ export class TemporaryDrawer extends React.Component {
 }
 
 export class PersistentDrawer extends React.Component {
+  static propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.node,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onOpen:  e => {},
+    onClose: e => {},
+  }
 
   componentDidMount() {
     this.drawer = MDCPersistentDrawer.attachTo(this.root_);
-    this.drawer.listen(MDCPersistentConstants.strings.OPEN_EVENT, evt => {
-      console.log(evt);
-    });
-    this.drawer.listen(MDCPersistentConstants.strings.CLOSE_EVENT, evt => {
-      console.log(evt);
-    });
+
+    let {onOpen, onClose} = this.props;
+    this.drawer.listen(MDCPersistentDrawerFoundation.strings.OPEN_EVENT, onOpen);
+    this.drawer.listen(MDCPersistentDrawerFoundation.strings.CLOSE_EVENT, onClose);
   }
 
   open() {
@@ -179,7 +184,7 @@ export class PersistentDrawer extends React.Component {
   }
 
   render() {
-    let {children, className, ...otherProps} = this.props;
+    let {children, className, onOpen, onClose, ...otherProps} = this.props;
     let nodes = React.Children.map(children, (child, index) => {
       return React.cloneElement(child, {type: 'persistent'});
     })

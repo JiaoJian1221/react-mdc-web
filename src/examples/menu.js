@@ -13,18 +13,10 @@ export class MenuTest extends React.Component {
   render() {
     return (
       <div>
-        <Button raised onClick={(e) => {
-          this.menu_.show();
-        }}>Open Menu</Button>
-        
-        <Button raised onClick={(e) => {
-          this.setState({open: true})
-        }}>Open Menu</Button>
+        <Button raised onClick={e => this.menu_.show()}>Open Menu</Button>
+        <Button raised onClick={e => this.setState({open: true})}>Open Menu</Button>
         <SimpleMenuAnchor>
-          <SimpleMenu ref={ref => this.menu_=ref} open={this.state.open} onSelected={(e) => {
-            let {detail} = e;
-            console.log('selected:' + detail.item.textContent.trim() + ' at index ' + detail.index);
-          }}/>
+          <SimpleMenu ref={ref => this.menu_=ref} open={this.state.open} onSelected={e => console.log(e)}/>
         </SimpleMenuAnchor>
       </div>
     );

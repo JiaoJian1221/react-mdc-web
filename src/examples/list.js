@@ -28,15 +28,15 @@ export class ListTest extends React.Component {
             <ListGroupSubheader>Start Detail</ListGroupSubheader>
             <List>
               <ListItem>
-                <ListItemIcon icon='folder' start/>
+                <ListItemIcon icon='folder'/>
                 <ListItemText>Single-line item</ListItemText>
               </ListItem>
               <ListItem>
-                <ListItemIcon icon='folder' start/>
+                <ListItemIcon icon='folder'/>
                 <ListItemText>Single-line item</ListItemText>
               </ListItem>
               <ListItem>
-                <ListItemIcon icon='folder' start/>
+                <ListItemIcon icon='folder'/>
                 <ListItemText>Single-line item</ListItemText>
               </ListItem>
             </List>
@@ -46,15 +46,15 @@ export class ListTest extends React.Component {
             <List>
               <ListItem>
                 <ListItemText>Single-line item</ListItemText>
-                <ListItemIcon icon='folder' end/>
+                <ListItemIcon icon='folder' position='end'/>
               </ListItem>
               <ListItem>
                 <ListItemText>Single-line item</ListItemText>
-                <ListItemIcon icon='folder' end/>
+                <ListItemIcon icon='folder' position='end'/>
               </ListItem>
               <ListItem>
                 <ListItemText>Single-line item</ListItemText>
-                <ListItemIcon icon='folder' end/>
+                <ListItemIcon icon='folder' position='end'/>
               </ListItem>
             </List>
 
@@ -63,15 +63,15 @@ export class ListTest extends React.Component {
             <List dense>
               <ListItem>
                 <ListItemText>Single-line item</ListItemText>
-                <ListItemIcon icon='folder' end/>
+                <ListItemIcon icon='folder' position='end'/>
               </ListItem>
               <ListItem>
                 <ListItemText>Single-line item</ListItemText>
-                <ListItemIcon icon='folder' end/>
+                <ListItemIcon icon='folder' position='end'/>
               </ListItem>
               <ListItem>
                 <ListItemText>Single-line item</ListItemText>
-                <ListItemIcon icon='folder' end/>
+                <ListItemIcon icon='folder' position='end'/>
               </ListItem>
             </List>
 

@@ -11,6 +11,7 @@ export class Card extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
   }
+
   render() {
     let {className, children, ...otherProps} = this.props;
     return (
@@ -24,6 +25,7 @@ export class CardActions extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
   }
+
   render() {
     let {className, children, ...otherProps} = this.props;
     let actions = React.Children.map(children, (action, index) => {
@@ -45,6 +47,7 @@ export class CardHorizontalBlock extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
   }
+  
   render() {
     let {className, children, ...otherProps} = this.props;
     return (

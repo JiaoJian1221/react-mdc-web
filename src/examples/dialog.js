@@ -5,15 +5,14 @@ import {
 } from '../components'
 
 export class DialogTest extends React.Component {
-  doClick() {
-    this.dialog.show();
-  }
+
 
   render() {
     return (
       <section>
-        <Button raised dense onClick={this.doClick.bind(this)}>Open</Button>
-        <Dialog ref={ref=>this.dialog=ref}>
+        <Button raised dense onClick={e => this.dialog_.show()}>Open</Button>
+
+        <Dialog ref={ref => this.dialog_=ref} onAccept={e => console.log(e)} onCancel={e => console.log(e)}>
           <DialogHeader>
             Use Googles location service?
           </DialogHeader>

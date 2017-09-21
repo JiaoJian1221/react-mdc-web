@@ -7,7 +7,7 @@ import {
 export class TabTest extends React.Component {
   render() {
     return (
-      <section style={{}}>
+      <div style={{width: '600px'}}>
         <Elevation z={1} style={{padding: 15}}>
           <TabBar>
             <Tab>One</Tab>
@@ -42,16 +42,14 @@ export class TabTest extends React.Component {
         </Elevation>
 
         <Elevation z={1} style={{padding: 15, marginTop: 15}}>
-          <TabBarScroller style={{width: 500}}>
-            <TabBar scrollable>
-              {ICONS.slice(0, 20).map((icon, index) => {
-                return <Tab key={index}><TabIcon icon={icon}/></Tab>;
-              })}
-            </TabBar>
-          </TabBarScroller>
+          <TabBar scrollable onChange={e => console.log(e)}>
+            {ICONS.slice(0, 20).map((icon, index) => {
+              return <Tab key={index}><TabIcon icon={icon}/></Tab>;
+            })}
+          </TabBar>
         </Elevation>
 
-      </section>
+      </div>
     );
   }
 }

@@ -4,8 +4,8 @@ import classnames from 'classnames';
 
 import {
   MDCSimpleMenu,
+  MDCSimpleMenuFoundation,
 } from '@material/menu';
-import * as MDCSimpleMenuConstants from '@material/menu/simple/constants';
 import '@material/menu/dist/mdc.menu.min.css';
 
 import {
@@ -64,9 +64,9 @@ export class SimpleMenu extends React.Component {
 
   componentDidMount() {
     this.menu_ = MDCSimpleMenu.attachTo(this.root_);
-    this.menu_.listen(MDCSimpleMenuConstants.strings.SELECTED_EVENT, (e) => {
-      this.props.onSelected(e);
-    });
+
+    let {onSelected} = this.props;
+    this.menu_.listen(MDCSimpleMenuFoundation.strings.SELECTED_EVENT, onSelected);
   }
 
   render() {
