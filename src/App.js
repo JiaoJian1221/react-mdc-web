@@ -38,13 +38,10 @@ export class Welcome extends React.Component {
   render() {
     return (
       <section>
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <img src={logo} className="App-logo" alt="logo" style={{width: 200}} />
-          <h2>Welcome to React</h2>
+          <h2>Welcome to Material Components Web for React</h2>
         </div>
-        <p>
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </section>
     );
   }
@@ -111,10 +108,10 @@ class App extends React.Component {
             <ToolbarRow>
               <ToolbarSection start>
                 <ToolbarIcon icon="menu" onClick={()=>{this.drawer.toggle()}}/>
-                <ToolbarTitle>Title</ToolbarTitle>
+                <ToolbarTitle>Material Components Web for React</ToolbarTitle>
               </ToolbarSection>
-              <ToolbarSection end>
-                End
+              <ToolbarSection end style={{marginRight: 16}}>
+                End section here
               </ToolbarSection>
             </ToolbarRow>
           </Toolbar>

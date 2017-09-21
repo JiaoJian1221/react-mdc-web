@@ -1,6 +1,8 @@
 import React from 'react';
 import {
+  Checkbox,
   Button,
+  FormField,
   FAButton,
   ITButton,
 } from '../components'
@@ -10,7 +12,7 @@ export class ButtonTest extends React.Component {
     dense: false,
     primary: false,
     compact: false,
-    accent: true,
+    accent: false,
     raised: true,
   }
   render() {
@@ -19,11 +21,11 @@ export class ButtonTest extends React.Component {
       <section>
         <h1>Button</h1>
         <div style={{display: 'flex', justifyContent: 'space-between', width: 600}}>
-          <Button raised onClick={() => this.setState({dense:   !this.state.dense  })}>Dense</Button>
-          <Button raised onClick={() => this.setState({primary: !this.state.primary})}>Primary</Button>
-          <Button raised onClick={() => this.setState({compact: !this.state.compact})}>Compact</Button>
-          <Button raised onClick={() => this.setState({accent:  !this.state.accent })}>Accent</Button>
-          <Button raised onClick={() => this.setState({raised:  !this.state.raised })}>Raised</Button>
+          <FormField><Checkbox checked={dense} onClick={({target: {checked}}) => this.setState({dense:   checked})}/><label>Dense</label></FormField>
+          <FormField><Checkbox checked={primary} onClick={({target: {checked}}) => this.setState({primary: checked})}/><label>Primary</label></FormField>
+          <FormField><Checkbox checked={compact} onClick={({target: {checked}}) => this.setState({compact: checked})}/><label>Compact</label></FormField>
+          <FormField><Checkbox checked={accent} onClick={({target: {checked}}) => this.setState({accent:  checked})}/><label>Accent</label></FormField>
+          <FormField><Checkbox checked={raised} onClick={({target: {checked}}) => this.setState({raised:  checked})}/><label>Raised</label></FormField>
         </div>
 
         <Button style={{marginTop: 10}} dense={dense} primary={primary} compact={compact} accent={accent} raised={raised}>Example Button</Button>
